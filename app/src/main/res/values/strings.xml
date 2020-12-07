@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Proiect</string>
+    <string name="buttonLog">Login</string>
+    <string name="buttonReg">Register</string>
+    <string name="tv_title">Car Sharing App</string>
+    <string name="img_logo">logo</string>
+    <string name="add_name">Name</string>
+    <string name="add_age">Password</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_reg">Register</string>
+    <string name="tv_reg_welcome">Please fill in the requirements bellow!</string>
+    <string name="add_name_reg">Name</string>
+    <string name="add_email_reg">Email</string>
+    <string name="add_phone_reg">Phone</string>
+    <string name="add_pass_reg">Password</string>
+    <string name="btn_register_conf">Register</string>
+
 </resources>
