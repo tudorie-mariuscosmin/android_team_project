@@ -1,18 +1,28 @@
 <resources>
-    <string name="app_name">Proiect</string>
-    <string name="buttonLog">Login</string>
-    <string name="buttonReg">Register</string>
-    <string name="tv_title">Car Sharing App</string>
-    <string name="img_logo">logo</string>
-    <string name="add_name">Name</string>
-    <string name="add_age">Password</string>
-    <string name="btn_login">Login</string>
-    <string name="btn_reg">Register</string>
-    <string name="tv_reg_welcome">Please fill in the requirements bellow!</string>
-    <string name="add_name_reg">Name</string>
-    <string name="add_email_reg">Email</string>
-    <string name="add_phone_reg">Phone</string>
-    <string name="add_pass_reg">Password</string>
-    <string name="btn_register_conf">Register</string>
+    <string name="app_name">CarSharingApp</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 
+    <string name="menu_home">Home</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_rides">Rides</string>
+    <string name="menu_credit_cards">Credit Cards</string>
+
+
+    <string name="login_title">Login</string>
+    <string name="login_btn">Login</string>
+    <string name="create_new_account_hint">Don\'t have an account? Create one here</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_email_hint">Email</string>
+    <string name="register_name_hint">Name</string>
+    <string name="phone_hint">Phone</string>
+    <string name="register_btn">Register</string>
+    <string name="register_title">Register a new account!</string>
+    <string name="terms_and_conditions">terms and conditions</string>
+    <string name="user_inser_error_msg">The user couldn\'t be registred</string>
+    <string name="user_inser_success_msg">User registred with success!</string>
 </resources>
