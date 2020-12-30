@@ -33,6 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_login_title"
+        app:startIconDrawable="@drawable/ic_baseline_email_24"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -55,6 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_login_email"
+        app:startIconDrawable="@drawable/ic_baseline_lock_24"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         >
 

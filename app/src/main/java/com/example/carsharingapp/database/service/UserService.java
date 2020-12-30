@@ -38,4 +38,22 @@ public class UserService {
         asyncTaskRunner.executeAsync(callable, callback);
     }
 
+
+    public void findUserByEmail(String email, Callback<User> callback){
+        Callable<User> callable = new Callable<User>() {
+            @Override
+            public User call() throws Exception {
+                if(email.isEmpty() || email == null){
+                    return null;
+                }
+                User user = userDao.findUserByEmail(email);
+                if(user ==null){
+                    return null;
+                }
+                return user;
+            }
+        };
+        asyncTaskRunner.executeAsync(callable, callback);
+    }
+
 }

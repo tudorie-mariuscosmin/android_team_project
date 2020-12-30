@@ -37,8 +37,8 @@ public class RegisterActivity extends AppCompatActivity {
         userService = new UserService(getApplicationContext());
         initComponents();
         termsAndConditionsDialog.setOnClickListener(v -> {
-            new  MaterialAlertDialogBuilder(this).setTitle("title")
-                    .setMessage("Message").show();
+            new  MaterialAlertDialogBuilder(this).setTitle(R.string.terms_and_conditions)
+                    .setMessage(R.string.terms_and_conditions_msg).show();
         });
 
         btnRegister.setOnClickListener(v -> {
@@ -100,9 +100,9 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void runResultOnUiThread(User result) {
                 if(result==null){
-                    Snackbar.make(btnRegister, R.string.user_inser_error_msg, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(btnRegister, R.string.user_insert_error_msg, Snackbar.LENGTH_SHORT).show();
                 }else{
-                    Snackbar.make(btnRegister, R.string.user_inser_success_msg, Snackbar.LENGTH_SHORT)
+                    Snackbar.make(btnRegister, R.string.user_insert_success_msg, Snackbar.LENGTH_SHORT)
                             .setAction(R.string.login_btn, v -> {
                                 finish();
                             }).show();
