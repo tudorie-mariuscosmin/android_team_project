@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.carsharingapp.database.models.CreditCard;
@@ -29,24 +30,50 @@ public class AddCreditCardActivity extends AppCompatActivity {
     private Button btnSave;
     private SharedPreferences sharedPreferences;
 
+    private CreditCard card;
+    private  Intent intent;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_credit_card);
         initComponents();
+        intent = getIntent();
+        if(intent.hasExtra(CREDIT_CARD_KEY)){
+            card =(CreditCard) intent.getSerializableExtra(CREDIT_CARD_KEY);
+            TextView title = findViewById(R.id.tv_add_credit_card_title);
+            title.setText(R.string.edit_card_title);
+            setViewsContent(card);
+        }
         sharedPreferences = getSharedPreferences(LoginActivity.LOGIN_SHARED_PREF, MODE_PRIVATE);
-
         btnSave.setOnClickListener(v -> {
             if (validate()){
-                Intent intent = getIntent();
-                CreditCard creditCard = createCreditCardFromComponents();
-                if(creditCard!=null){
-                   intent.putExtra(CREDIT_CARD_KEY, creditCard);
+                 createCreditCardFromComponents();
+                   intent.putExtra(CREDIT_CARD_KEY, card);
                    setResult(RESULT_OK, intent);
                    finish();
-                }
+
             }
         });
+    }
+
+    private  void setViewsContent(CreditCard card){
+        if(card != null){
+            tietCardholderName.setText(card.getCardholderName());
+            tietCardNumber.setText(String.valueOf(card.getCardNumber()));
+            DateConverter converter = new DateConverter();
+            tietExpiration.setText(converter.toString(card.getExpiration()));
+            tietCvv.setText(String.valueOf(card.getCvv()));
+            int idType;
+            if(card.getType().equals("Visa")){
+                idType = R.id.rb_add_credit_card_visa;
+            }else{
+                idType = R.id.rb_add_credit_card_mastercard;
+            }
+            rgType.check(idType);
+        }
     }
 
     private void initComponents(){
@@ -85,7 +112,7 @@ public class AddCreditCardActivity extends AppCompatActivity {
         return true;
     }
 
-    private CreditCard createCreditCardFromComponents(){
+    private void createCreditCardFromComponents(){
         String cardholderName = tietCardholderName.getText().toString();
         long cardNumber = Long.parseLong( tietCardNumber.getText().toString());
         int cvv = Integer.parseInt(tietCvv.getText().toString());
@@ -99,10 +126,18 @@ public class AddCreditCardActivity extends AppCompatActivity {
         }else{
             type = "Mastercard";
         }
-        if(userId == -1 || expirationDate == null){
-            return null;
+        if(userId != -1 || expirationDate != null){
+            if(card == null){
+                card =  new CreditCard(userId,cardholderName, cardNumber, expirationDate, cvv, type );
+            }else{
+                card.setCardholderName(cardholderName);
+                card.setCardNumber(cardNumber);
+                card.setExpiration(expirationDate);
+                card.setCvv(cvv);
+                card.setType(type);
+            }
+
         }
-        return new CreditCard(userId,cardholderName, cardNumber, expirationDate, cvv, type );
 
     }
 

@@ -56,4 +56,34 @@ public class CreditCardService {
         };
         asyncTaskRunner.executeAsync(callable, callback);
     }
+
+    public  void deleteCard(CreditCard card,Callback<Integer> callback ){
+        Callable<Integer> callable = new Callable<Integer>() {
+            @Override
+            public Integer call() throws Exception {
+                if(card == null){
+                    return -1;
+                }
+                return  cardDao.delete(card);
+            }
+        };
+        asyncTaskRunner.executeAsync(callable, callback);
+    }
+
+    public void update(CreditCard card, Callback<CreditCard> callback){
+        Callable<CreditCard> callable = new Callable<CreditCard>() {
+            @Override
+            public CreditCard call() throws Exception {
+                if(card == null){
+                    return null;
+                }
+                int count = cardDao.update(card);
+                if(count == -1){
+                    return null;
+                }
+                return card;
+            }
+        };
+        asyncTaskRunner.executeAsync(callable,callback);
+    }
 }

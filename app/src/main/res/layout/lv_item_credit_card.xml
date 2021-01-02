@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/credit_card_bg"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:longClickable="true">
 
     <TextView
         android:id="@+id/tv_lvi_credit_card_cardholder_name"

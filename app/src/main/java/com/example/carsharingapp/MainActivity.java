@@ -1,9 +1,12 @@
 package com.example.carsharingapp;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,15 +33,19 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private Fragment currentFragment;
 
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPreferences = getSharedPreferences(LoginActivity.LOGIN_SHARED_PREF, MODE_PRIVATE);
         //navigation
         configNavigation();
         navigationView = findViewById(R.id.nav_view);
         openDefaultFragment(savedInstanceState);
         navigationView.setNavigationItemSelectedListener(navItemSelectedListener());
+
     }
 
     private NavigationView.OnNavigationItemSelectedListener navItemSelectedListener() {
@@ -62,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
                         currentFragment = new CreditCardsFragment();
                         //Toast.makeText(getApplicationContext(), "credit cards", Toast.LENGTH_SHORT).show();
                         break;
+                    case R.id.nav_logout:
+                        logout();
+                        break;
+
                 }
                 openfragment();
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -78,6 +89,13 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
+        NavigationView navigationView =  findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        TextView tvUsername =headerView.findViewById(R.id.tv_nav_username);
+        String username = sharedPreferences.getString(LoginActivity.USER_NAME, "User");
+        tvUsername.setText(getString(R.string.nav_header_user_name, username));
+
+
     }
     //puts the current fragment on the screen
     public  void openfragment(){
@@ -92,5 +110,14 @@ public class MainActivity extends AppCompatActivity {
             openfragment();
             navigationView.setCheckedItem(R.id.nav_home);
         }
+    }
+
+    public void logout(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear().commit();
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+        finish();
+
     }
 }
