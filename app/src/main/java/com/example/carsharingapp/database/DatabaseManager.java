@@ -5,11 +5,17 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 
+import com.example.carsharingapp.database.dao.CreditCardDao;
 import com.example.carsharingapp.database.dao.UserDao;
+import com.example.carsharingapp.database.models.CreditCard;
 import com.example.carsharingapp.database.models.User;
+import com.example.carsharingapp.util.DateConverter;
 
-@Database(entities = {User.class}, version = 2, exportSchema = false)
+@Database(entities = {User.class, CreditCard.class}, version = 3, exportSchema = false)
+@TypeConverters({DateConverter.class})
 public abstract class DatabaseManager extends RoomDatabase {
 
     public static final String CAR_SHARING_DB = "CarSharingDB";
@@ -28,4 +34,5 @@ public abstract class DatabaseManager extends RoomDatabase {
     }
 
     public abstract UserDao getUserDao();
+    public abstract CreditCardDao getCreditCardDao();
 }

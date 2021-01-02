@@ -3,41 +3,47 @@ package com.example.carsharingapp.database.models;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.Date;
-@Entity(tableName = "CredCards")
-public class CreditCard {
+@Entity(tableName = "CredCards",  foreignKeys = @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "userId", onDelete = ForeignKey.CASCADE))
+public class CreditCard  implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private long id;
-    @ForeignKey()
+    @ColumnInfo(name = "userId")
     private long userId;
-
+    @ColumnInfo(name = "cardholderName")
     private String cardholderName;
-
+    @ColumnInfo(name = "cardNumber")
     private long cardNumber;
-
+    @ColumnInfo(name = "expiration")
     private Date expiration;
-
+    @ColumnInfo(name = "cvv")
     private int cvv;
+    @ColumnInfo(name = "type")
+    private String type;
 
-
-    public CreditCard(long userId, String cardholderName, long cardNumber, Date expiration, int cvv) {
+    @Ignore
+    public CreditCard(long userId, String cardholderName, long cardNumber, Date expiration, int cvv, String type) {
         this.userId = userId;
         this.cardholderName = cardholderName;
         this.cardNumber = cardNumber;
         this.expiration = expiration;
         this.cvv = cvv;
+        this.type = type;
     }
 
-    public CreditCard(long id, long userId, String cardholderName, long cardNumber, Date expiration, int cvv) {
+    public CreditCard(long id, long userId, String cardholderName, long cardNumber, Date expiration, int cvv, String type) {
         this.id = id;
         this.userId = userId;
         this.cardholderName = cardholderName;
         this.cardNumber = cardNumber;
         this.expiration = expiration;
         this.cvv = cvv;
+        this.type = type;
     }
 
     public long getId() {
@@ -87,6 +93,10 @@ public class CreditCard {
     public void setCvv(int cvv) {
         this.cvv = cvv;
     }
+
+    public String getType() { return type; }
+
+    public void setType(String type) { this.type = type; }
 
     @Override
     public String toString() {

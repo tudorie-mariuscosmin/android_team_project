@@ -3,59 +3,35 @@ package com.example.carsharingapp;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import com.example.carsharingapp.asyncTask.Callback;
+import com.example.carsharingapp.customAdapters.CreditCardsAdapers;
+import com.example.carsharingapp.database.models.CreditCard;
+import com.example.carsharingapp.database.service.CreditCardService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CreditCardsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class CreditCardsFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-//    private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-//    private String mParam1;
-//    private String mParam2;
-
-//    public CreditCardsFragment() {
-//        // Required empty public constructor
-//    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CreditCardsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-//    public static CreditCardsFragment newInstance(String param1, String param2) {
-//        CreditCardsFragment fragment = new CreditCardsFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-
+        public static final int ADD_CREDIT_CARD_REQ = 342;
+        private List<CreditCard> creditCards;
+        ListView lvCreditCards;
+        CreditCardService cardService;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
     }
 
     @Override
@@ -64,11 +40,58 @@ public class CreditCardsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_credit_cards, container, false);
         FloatingActionButton fab = view.findViewById(R.id.fab_cred_card_add);
+        creditCards = new ArrayList<>();
+        lvCreditCards = view.findViewById(R.id.lv_cred_cards);
+        CreditCardsAdapers adaper = new CreditCardsAdapers(getContext().getApplicationContext(), R.layout.lv_item_credit_card, creditCards, inflater);
+        lvCreditCards.setAdapter(adaper);
+        cardService = new CreditCardService(getContext().getApplicationContext());
+
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(getContext().getApplicationContext(), AddCreditCardActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,ADD_CREDIT_CARD_REQ );
         });
+
+        cardService.getAllUserCards(getUserCardsCallback());
         return view;
 
+    }
+
+    @NotNull
+    private Callback<List<CreditCard>> getUserCardsCallback() {
+        return new Callback<List<CreditCard>>() {
+            @Override
+            public void runResultOnUiThread(List<CreditCard> result) {
+                if(result != null){
+                    creditCards.clear();
+                    creditCards.addAll(result);
+                    ArrayAdapter adapter = (ArrayAdapter) lvCreditCards.getAdapter();
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        };
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_CREDIT_CARD_REQ && resultCode == AddCreditCardActivity.RESULT_OK){
+           if(data !=null){
+               CreditCard card = (CreditCard) data.getSerializableExtra(AddCreditCardActivity.CREDIT_CARD_KEY);
+               cardService.insertCard(card, insertCreditCardCallback());
+
+           }
+        }
+    }
+
+    @NotNull
+    private Callback<CreditCard> insertCreditCardCallback() {
+        return new Callback<CreditCard>() {
+            @Override
+            public void runResultOnUiThread(CreditCard result) {
+                creditCards.add(result);
+                ArrayAdapter adapter =(ArrayAdapter) lvCreditCards.getAdapter();
+                adapter.notifyDataSetChanged();
+            }
+        };
     }
 }
