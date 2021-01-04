@@ -18,10 +18,10 @@ public interface UserDao {
     int idUserPass(String pass);
     // returns user from primary key
     @Query("SELECT * FROM Users WHERE id = :id LIMIT 1;")
-    User findUserById(int id);
-    // returns name from primary key
-    @Query("SELECT name FROM Users WHERE id = :id;")
-    String findUserName(int id);
+    User findUserById(long id);
+    // returns name from name
+    @Query("SELECT name FROM Users WHERE name = :name;")
+    String findUserName(String name);
     // returns user from email
     @Query("SELECT * FROM Users where email = :email")
     User findUserByEmail(String email);

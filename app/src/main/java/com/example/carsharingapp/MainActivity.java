@@ -9,6 +9,9 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.carsharingapp.asyncTask.Callback;
+import com.example.carsharingapp.database.models.User;
+import com.example.carsharingapp.database.service.UserService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -33,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private Fragment currentFragment;
 
+    private User user;
+    private  UserService userService;
+
     SharedPreferences sharedPreferences;
 
     @Override
@@ -46,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         openDefaultFragment(savedInstanceState);
         navigationView.setNavigationItemSelectedListener(navItemSelectedListener());
 
+        userService = new UserService(getApplicationContext());
+        getUserFromDB();
+
     }
 
     private NavigationView.OnNavigationItemSelectedListener navItemSelectedListener() {
@@ -58,7 +67,9 @@ public class MainActivity extends AppCompatActivity {
                         //Toast.makeText(getApplicationContext(), "home", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.nav_profile:
-                        currentFragment = new ProfileFragment();
+                        if(user!= null){
+                            currentFragment = ProfileFragment.newInstance(user);
+                        }
                         //Toast.makeText(getApplicationContext(), "profile", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.nav_rides:
@@ -98,13 +109,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
     //puts the current fragment on the screen
-    public  void openfragment(){
+    private  void openfragment(){
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_frame_container, currentFragment)
                 .commit();
     }
-    public void openDefaultFragment(Bundle savedInsanceState){
+    private void openDefaultFragment(Bundle savedInsanceState){
         if(savedInsanceState==null){
             currentFragment = new HomeFragment();
             openfragment();
@@ -112,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void logout(){
+    private void logout(){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear().commit();
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -120,4 +131,21 @@ public class MainActivity extends AppCompatActivity {
         finish();
 
     }
+
+    private void getUserFromDB(){
+        long id = sharedPreferences.getLong(LoginActivity.USER_ID, -1);
+        if(id != -1){
+        userService.findUserById(id, new Callback<User>() {
+            @Override
+            public void runResultOnUiThread(User result) {
+                if(result != null){
+                    user = result;
+                }
+            }
+        });
+
+        }
+    }
+
+
 }

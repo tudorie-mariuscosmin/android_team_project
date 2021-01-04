@@ -80,5 +80,13 @@ You warrant and represent that:
     <string name="delete">Delete</string>
     <string name="logout">Logout</string>
     <string name="edit_card_title">Edit Card!</string>
+    <string name="profile_page">Profile Page</string>
+    <string name="profile_page_edit">Update Profile</string>
+    <string name="edit_profile">edit</string>
+    <string name="rate_our_app">Rate our app</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="export_data">Export Data</string>
+    <string name="delete_account_message">Are you sure you want to delete your account?</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

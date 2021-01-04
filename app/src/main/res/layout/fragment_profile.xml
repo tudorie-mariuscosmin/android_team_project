@@ -1,14 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ProfileFragment"
+    android:id="@+id/profile_fragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_profile_editable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="10dp"/>
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/menu_profile" />
+        android:id="@+id/tv_profile_edit_sw_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_profile"
+        app:layout_constraintEnd_toStartOf="@id/switch_profile_editable"
+        app:layout_constraintTop_toTopOf="@id/switch_profile_editable"
+        app:layout_constraintBottom_toBottomOf="@id/switch_profile_editable"
+        android:layout_marginRight="7dp"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tv_profile_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profile_page"
+        android:textSize="30sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintTop_toBottomOf="@id/switch_profile_editable"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_profile_name_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/et_profile_name"
+        app:layout_constraintEnd_toEndOf="@id/et_profile_name"
+        app:layout_constraintStart_toStartOf="@id/et_profile_name"
+        android:text="@string/register_name_hint"
+         />
+    <EditText
+        android:id="@+id/et_profile_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:enabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_profile_title"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"/>
+
+
+
+    <TextView
+        android:id="@+id/tv_profile_email_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/et_profile_email"
+        app:layout_constraintEnd_toEndOf="@id/et_profile_email"
+        app:layout_constraintStart_toStartOf="@id/et_profile_email"
+        android:text="@string/login_email_hint"
+        />
+    <EditText
+        android:id="@+id/et_profile_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:enabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_profile_name"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"/>
+
+    <TextView
+        android:id="@+id/tv_profile_phone_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/et_profile_phone"
+        app:layout_constraintEnd_toEndOf="@id/et_profile_phone"
+        app:layout_constraintStart_toStartOf="@id/et_profile_phone"
+        android:text="@string/phone_hint"
+        />
+    <EditText
+        android:id="@+id/et_profile_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:enabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_profile_email"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"/>
+
+    <TextView
+        android:id="@+id/tv_profile_password_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/et_profile_password"
+        app:layout_constraintEnd_toEndOf="@id/et_profile_password"
+        app:layout_constraintStart_toStartOf="@id/et_profile_password"
+        android:text="@string/login_password_hint"
+        />
+    <EditText
+        android:id="@+id/et_profile_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:enabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_profile_phone"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"/>
+
+    <TextView
+        android:id="@+id/tv_profile_rate_app_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/rating_profile"
+        app:layout_constraintEnd_toEndOf="@id/rating_profile"
+        app:layout_constraintStart_toStartOf="@id/rating_profile"
+        android:text="@string/rate_our_app"
+        />
+    <RatingBar
+        android:id="@+id/rating_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_profile_password"
+        android:layout_marginTop="40dp"
+        android:isIndicator="true"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_profile_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_account"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_profile_export"
+        app:icon="@drawable/ic_baseline_delete_24"
+        android:backgroundTint="@color/red"
+
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_profile_export"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/export_data"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_profile_delete"
+        app:layout_constraintStart_toStartOf="parent"
+        app:icon="@drawable/ic_baseline_table_view_24"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

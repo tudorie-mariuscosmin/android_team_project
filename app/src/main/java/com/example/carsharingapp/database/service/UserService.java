@@ -56,4 +56,51 @@ public class UserService {
         asyncTaskRunner.executeAsync(callable, callback);
     }
 
+    public void  findUserById(long id, Callback<User> callback){
+        Callable<User> callable = new Callable<User>() {
+            @Override
+            public User call() throws Exception {
+                if(id < 1 ){
+                    return null;
+                }
+
+                User user = userDao.findUserById(id);
+                if(user == null){
+                    return null;
+                }
+                return user;
+            }
+        };
+        asyncTaskRunner.executeAsync(callable, callback);
+    }
+
+    public  void deleteUser (User user, Callback<Integer> callback){
+        Callable<Integer> callable = new Callable<Integer>() {
+            @Override
+            public Integer call() throws Exception {
+                if(user == null){
+                    return -1;
+                }
+                return userDao.delete(user);
+            }
+        };
+        asyncTaskRunner.executeAsync(callable, callback);
+    }
+
+    public  void updateUser(User user, Callback<User> callback){
+        Callable<User>callable = new Callable<User>() {
+            @Override
+            public User call() throws Exception {
+                if(user == null){
+                    return null;
+                }
+                int val = userDao.update(user);
+                if(val == -1){
+                    return null;
+                }
+                return user;
+            }
+        };
+        asyncTaskRunner.executeAsync(callable, callback);
+    }
 }

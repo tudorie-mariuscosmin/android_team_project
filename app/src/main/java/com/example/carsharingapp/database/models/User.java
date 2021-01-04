@@ -6,8 +6,10 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "Users" , indices = {@Index(value = "email", unique = true)})
-public class User {
+public class User implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -21,9 +23,9 @@ public class User {
     @ColumnInfo(name = "password")
     private String password;
     @ColumnInfo(name="rating")
-    private double rating;
+    private float rating;
 
-    public User(long id, String name, String email, String phone, String password, double rating) {
+    public User(long id, String name, String email, String phone, String password, float rating) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -79,11 +81,11 @@ public class User {
         this.password = password;
     }
 
-    public double getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
