@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
    private ArrayList<Car> cars;
    private ArrayList<City> cities;
+   Bundle savedInstance;
 
    private String json;
 
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.savedInstance = savedInstanceState;
         setContentView(R.layout.activity_main);
         sharedPreferences = getSharedPreferences(LoginActivity.LOGIN_SHARED_PREF, MODE_PRIVATE);
         //navigation
@@ -150,9 +152,9 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.main_frame_container, currentFragment)
                 .commit();
     }
+
     private void openDefaultFragment(Bundle savedInsanceState){
         if(savedInsanceState==null){
-
             if(cars !=null && cities !=null) {
                 currentFragment = HomeFragment.newInstance(cars, cities);
                 openfragment();
@@ -247,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("LISTS", cars.toString());
                     Log.d("LISTSC", cities.toString());
 
-
+                    openDefaultFragment(savedInstance);
                 }
 
 
