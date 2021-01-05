@@ -3,15 +3,21 @@ package com.example.carsharingapp;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.carsharingapp.asyncTask.AsyncTaskRunner;
 import com.example.carsharingapp.asyncTask.Callback;
 import com.example.carsharingapp.database.models.User;
 import com.example.carsharingapp.database.service.UserService;
+import com.example.carsharingapp.util.Car;
+import com.example.carsharingapp.util.CarJSONParser;
+import com.example.carsharingapp.util.City;
+import com.example.carsharingapp.util.CityJSONParser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -30,6 +36,18 @@ import androidx.appcompat.widget.Toolbar;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
@@ -38,6 +56,16 @@ public class MainActivity extends AppCompatActivity {
 
     private User user;
     private  UserService userService;
+
+   private InputStream inputStream;
+   private InputStreamReader inputStreamReader;
+   private BufferedReader bufferedReader;
+   private HttpURLConnection connection;
+
+   private ArrayList<Car> cars;
+   private ArrayList<City> cities;
+
+   private String json;
 
     SharedPreferences sharedPreferences;
 
@@ -54,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
         userService = new UserService(getApplicationContext());
         getUserFromDB();
+        getJsonFromWeb("https://jsonkeeper.com/b/R66C");
+
+
+
 
     }
 
@@ -63,7 +95,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.nav_home:
-                        currentFragment = new HomeFragment();
+
+                      if(cars != null && cities !=null) {
+                          currentFragment = HomeFragment.newInstance(cars, cities);
+                      }
                         //Toast.makeText(getApplicationContext(), "home", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.nav_profile:
@@ -117,9 +152,13 @@ public class MainActivity extends AppCompatActivity {
     }
     private void openDefaultFragment(Bundle savedInsanceState){
         if(savedInsanceState==null){
-            currentFragment = new HomeFragment();
-            openfragment();
-            navigationView.setCheckedItem(R.id.nav_home);
+
+            if(cars !=null && cities !=null) {
+                currentFragment = HomeFragment.newInstance(cars, cities);
+                openfragment();
+                navigationView.setCheckedItem(R.id.nav_home);
+            }
+
         }
     }
 
@@ -145,6 +184,79 @@ public class MainActivity extends AppCompatActivity {
         });
 
         }
+    }
+
+    private void getJsonFromWeb(String JsonAddress){
+        AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner();
+        Callable<String> callable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+
+                StringBuilder result = new StringBuilder();
+
+                try {
+                    URL url = new URL(JsonAddress);
+                    connection = (HttpURLConnection) url.openConnection();
+                    inputStream = connection.getInputStream();
+                    inputStreamReader = new InputStreamReader(inputStream);
+                    bufferedReader = new BufferedReader(inputStreamReader);
+
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        bufferedReader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        inputStreamReader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    connection.disconnect();
+
+                }
+                return result.toString();
+            }
+
+        };
+
+        Callback<String> callback = new Callback<String>() {
+            @Override
+            public void runResultOnUiThread(String result) {
+
+                if(result != null) {
+                    json = result;
+
+                    cars = CarJSONParser.fromJson(json);
+                    cities = CityJSONParser.fromJson(json);
+
+                    Log.d("Main Activity JSON", result);
+
+                    Log.d("LISTS", cars.toString());
+                    Log.d("LISTSC", cities.toString());
+
+
+                }
+
+
+
+
+            }
+        };
+
+        asyncTaskRunner.executeAsync(callable, callback);
     }
 
 
