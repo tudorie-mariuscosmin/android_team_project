@@ -11,6 +11,7 @@ import android.telecom.Call;
 import android.telecom.Connection;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.carsharingapp.asyncTask.AsyncTaskRunner;
 import com.example.carsharingapp.asyncTask.Callback;
@@ -25,6 +26,7 @@ public class StartActivity extends AppCompatActivity {
     private ImageView imageView;
     private boolean isLoggedIn;
     SharedPreferences sharedPreferences;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +34,22 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
         asyncTaskRunner = new AsyncTaskRunner();
         imageView = findViewById(R.id.img_start);
+        progressBar = findViewById(R.id.progressbar_start);
         getImgFromWeb("https://freesvg.org/img/1541950019.png");
         checkLoggedIn();
+        progressBar.setMax(150);
         Thread thread = new Thread(){
             @Override
             public void run() {
-                try {
-                sleep(1200);
-                }catch (InterruptedException ex){
-                    Log.e("StartActivity", ex.getMessage());
+                for(int i = 0; i<150; i++){
+                    try {
+                        sleep(10);
+                    }catch (InterruptedException ex){
+                        Log.e("StartActivity", ex.getMessage());
+                    }
+                    progressBar.setProgress(i);
                 }
+
                 changeActivity();
             }
         };
