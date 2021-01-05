@@ -88,5 +88,6 @@ You warrant and represent that:
     <string name="export_data">Export Data</string>
     <string name="delete_account_message">Are you sure you want to delete your account?</string>
     <string name="cancel">Cancel</string>
+    <string name="tv_title_home">Select your Ride</string>
 
 </resources>
