@@ -28,6 +28,8 @@
         app:layout_constraintEnd_toStartOf="@id/et_home_dateuntill"
         app:layout_constraintTop_toBottomOf="@+id/tv_home_title"
        android:layout_marginEnd="8dp"
+        android:inputType="date"
+        android:hint="@string/tap_to_select"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         />
@@ -40,6 +42,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:inputType="date"
+        android:hint="@string/tap_to_select"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"/>
 
@@ -47,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_home_datefrom"
-        android:text="From Date:"
+        android:text="@string/from_date"
         app:layout_constraintStart_toStartOf="@id/et_home_datefrom"
         app:layout_constraintBottom_toTopOf="@id/et_home_datefrom"
         app:layout_constraintEnd_toEndOf="@id/et_home_datefrom"
@@ -58,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_home_dateuntill"
-        android:text="To Date:"
+        android:text="@string/to_date"
         app:layout_constraintStart_toStartOf="@+id/et_home_dateuntill"
         app:layout_constraintBottom_toTopOf="@id/et_home_dateuntill"
         app:layout_constraintEnd_toEndOf="@+id/et_home_dateuntill"/>
@@ -78,7 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_spn_home_location"
-        android:text="Ride pick-up location:"
+        android:text="@string/ride_pick_up_location"
         app:layout_constraintStart_toStartOf="@id/spn_home_location"
         app:layout_constraintEnd_toEndOf="@id/spn_home_location"
         app:layout_constraintBottom_toTopOf="@id/spn_home_location"
@@ -86,46 +90,48 @@
 
     <Spinner
         android:id="@+id/spn_home_carbrand"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/spn_home_carmodel"
         app:layout_constraintTop_toBottomOf="@+id/spn_home_location"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="40dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_spn_home_carbrand"
-        android:text="Car Brand:"
+        android:text="@string/car"
         app:layout_constraintStart_toStartOf="@+id/spn_home_carbrand"
         app:layout_constraintEnd_toEndOf="@id/spn_home_carbrand"
         app:layout_constraintBottom_toTopOf="@id/spn_home_carbrand"/>
 
+    <Spinner
+        android:id="@+id/spn_home_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_spn_home_carbrand"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="40dp"
+         />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_spn_home_carmodel"
-        android:text="Car Model:"
-        app:layout_constraintStart_toStartOf="@+id/spn_home_carmodel"
-        app:layout_constraintEnd_toEndOf="@id/spn_home_carmodel"
-        app:layout_constraintBottom_toTopOf="@id/spn_home_carmodel"/>
+        android:id="@+id/tv_spn_home_card"
+        android:text="@string/credit_card"
+        app:layout_constraintStart_toStartOf="@+id/spn_home_card"
+        app:layout_constraintEnd_toEndOf="@id/spn_home_card"
+        app:layout_constraintBottom_toTopOf="@id/spn_home_card"/>
 
 
 
-    <Spinner
-        android:id="@+id/spn_home_carmodel"
-        app:layout_constraintStart_toEndOf="@+id/spn_home_carbrand"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spn_home_location"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp" />
+
 
     <SeekBar
         android:id="@+id/sb_home_kilometers"
@@ -136,19 +142,32 @@
         android:layout_marginEnd="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spn_home_carbrand"
+        app:layout_constraintTop_toBottomOf="@id/spn_home_card"
         />
 
     <TextView
        android:id="@+id/tv_home_seekbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/sb_home_kilometers"
         app:layout_constraintStart_toStartOf="@id/sb_home_kilometers"
         app:layout_constraintTop_toBottomOf="@id/sb_home_kilometers"
-/>
+        />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_home_new_ride"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/get_a_new_ride"
+        app:icon="@drawable/ic_baseline_directions_car_24"
+        app:layout_constraintTop_toBottomOf="@id/tv_home_seekbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

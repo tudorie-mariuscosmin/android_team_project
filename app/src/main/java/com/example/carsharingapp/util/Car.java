@@ -73,12 +73,7 @@ public class Car extends ArrayList<Parcelable> implements Parcelable {
 
     @Override
     public String toString() {
-        return "Car{" +
-                "title='" + title + '\'' +
-                ", state='" + state + '\'' +
-                ", type='" + type + '\'' +
-                ", kilometers=" + kilometers +
-                '}';
+        return title + " "+ type + " " + state + " " + kilometers + " km";
     }
 
     @Override

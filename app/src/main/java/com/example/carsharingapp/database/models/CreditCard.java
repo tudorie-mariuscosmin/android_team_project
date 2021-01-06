@@ -100,13 +100,6 @@ public class CreditCard  implements Serializable {
 
     @Override
     public String toString() {
-        return "CreditCard{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", cardholderName='" + cardholderName + '\'' +
-                ", cardNumber=" + cardNumber +
-                ", expiration=" + expiration +
-                ", cvv=" + cvv +
-                '}';
+        return cardholderName + " - "+ cardNumber;
     }
 }

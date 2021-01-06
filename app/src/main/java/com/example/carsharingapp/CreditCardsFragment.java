@@ -61,8 +61,6 @@ public class CreditCardsFragment extends Fragment {
         registerForContextMenu(lvCreditCards);
 
 
-
-
         cardService = new CreditCardService(getContext().getApplicationContext());
         cardService.getAllUserCards(getUserCardsCallback());
 

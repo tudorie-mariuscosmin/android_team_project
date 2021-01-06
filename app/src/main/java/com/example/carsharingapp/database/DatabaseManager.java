@@ -9,12 +9,14 @@ import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import com.example.carsharingapp.database.dao.CreditCardDao;
+import com.example.carsharingapp.database.dao.RideDao;
 import com.example.carsharingapp.database.dao.UserDao;
 import com.example.carsharingapp.database.models.CreditCard;
+import com.example.carsharingapp.database.models.Ride;
 import com.example.carsharingapp.database.models.User;
 import com.example.carsharingapp.util.DateConverter;
 
-@Database(entities = {User.class, CreditCard.class}, version = 3, exportSchema = false)
+@Database(entities = {User.class, CreditCard.class, Ride.class}, version = 4, exportSchema = false)
 @TypeConverters({DateConverter.class})
 public abstract class DatabaseManager extends RoomDatabase {
 
@@ -35,4 +37,5 @@ public abstract class DatabaseManager extends RoomDatabase {
 
     public abstract UserDao getUserDao();
     public abstract CreditCardDao getCreditCardDao();
+    public abstract RideDao getRideDao();
 }

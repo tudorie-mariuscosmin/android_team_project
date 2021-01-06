@@ -75,10 +75,6 @@ public class City extends ArrayList<Parcelable> implements Parcelable {
 
     @Override
     public String toString() {
-        return "City{" +
-                "name='" + name + '\'' +
-                ", longitude=" + longitude +
-                ", latitude=" + latitude +
-                '}';
+        return name;
     }
 }
