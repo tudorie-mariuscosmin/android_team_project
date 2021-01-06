@@ -95,6 +95,9 @@ You warrant and represent that:
     <string name="ride_pick_up_location">Ride pick-up location:</string>
     <string name="tap_to_select">Tap to select</string>
     <string name="get_a_new_ride">Get a new ride</string>
-    <string name="credit_card">Credit Card</string>
+    <string name="credit_card">Credit Card:</string>
+    <string name="from">From</string>
+    <string name="untill">Untill</string>
+    <string name="expected_km">Expected Km:</string>
 
 </resources>

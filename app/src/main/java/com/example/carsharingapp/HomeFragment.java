@@ -101,7 +101,7 @@ public class HomeFragment extends Fragment {
                Ride ride =  createRide();
                rideService.insertRide(ride, result -> {
                    if(result!=null){
-                       Snackbar.make(btnGetRide, "You got a new ride!", Snackbar.LENGTH_LONG).setAction("See Rides",v1 -> {
+                       Snackbar.make(btnGetRide, "You got a new ride!", Snackbar.LENGTH_INDEFINITE).setAction("See Rides",v1 -> {
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_container, new RidesFragment()).commit();
                        }).show();
                    }
