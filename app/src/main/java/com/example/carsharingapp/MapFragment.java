@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.carsharingapp.database.models.User;
+import com.example.carsharingapp.util.City;
+import com.example.carsharingapp.util.CityJSONParser;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,14 +21,30 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+import java.util.Map;
+
 
 public class MapFragment extends Fragment {
     private GoogleMap gMap;
+    private String json;
+    private List<City> cities;
+
+    public MapFragment(){}
+    public static MapFragment newInstance(String s) {
+        MapFragment fragment = new MapFragment();
+        Bundle args = new Bundle();
+        args.putString("json", s);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Initialize view
+        json = getArguments().getString("json");
+        cities = CityJSONParser.fromJson(json);
 
         View view=inflater.inflate(R.layout.fragment_map, container, false);
         //Initialize map fragment
@@ -39,12 +58,15 @@ public class MapFragment extends Fragment {
                 //When map loaded
                 gMap=googleMap;
                 gMap.getUiSettings().setZoomControlsEnabled(true);
-                LatLng bucharest = new LatLng(44.439663, 26.096306);
-                LatLng brasov = new LatLng(45.657974, 25.601198);
-                gMap.addMarker(new MarkerOptions().position(bucharest).title("Marker in Bucharest"));
-                gMap.moveCamera(CameraUpdateFactory.newLatLng(bucharest));
-                gMap.addMarker(new MarkerOptions().position(brasov).title("Marker in Brasov"));
-                gMap.moveCamera(CameraUpdateFactory.newLatLng(brasov));
+
+                for(City city : cities){
+                    LatLng coord = new LatLng(city.getLatitude(), city.getLongitude());
+                    gMap.addMarker(new MarkerOptions().position(coord).title(city.getName()));
+                }
+
+                gMap.animateCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(44.439663, 	26.096306), 6));
+
+//
                 googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng latLng) {

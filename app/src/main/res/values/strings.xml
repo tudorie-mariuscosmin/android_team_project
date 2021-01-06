@@ -97,4 +97,10 @@ You warrant and represent that:
     <string name="get_a_new_ride">Get a new ride</string>
     <string name="credit_card">Credit Card</string>
 
+    <string name="from">From</string>
+    <string name="untill">Until</string>
+
+    <string name="expected_km">Expected Km</string>
+    <string name="nav_map">Map</string>
+
 </resources>

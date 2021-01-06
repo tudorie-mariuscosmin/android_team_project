@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         userService = new UserService(getApplicationContext());
         getUserFromDB();
-        getJsonFromWeb("https://jsonkeeper.com/b/R66C");
+        getJsonFromWeb("https://jsonkeeper.com/b/WOCP");
 
 
 
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     case R.id.nav_map:
-                            currentFragment = new MapFragment();
+                            currentFragment = MapFragment.newInstance(json);
                         //Toast.makeText(getApplicationContext(), "profile", Toast.LENGTH_SHORT).show();
                         break;
                         //Toast.makeText(getApplicationContext(), "profile", Toast.LENGTH_SHORT).show();
