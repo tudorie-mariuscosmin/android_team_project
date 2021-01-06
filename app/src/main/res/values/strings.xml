@@ -96,5 +96,6 @@ You warrant and represent that:
     <string name="tap_to_select">Tap to select</string>
     <string name="get_a_new_ride">Get a new ride</string>
     <string name="credit_card">Credit Card</string>
+    <string name="nav_map">Map</string>
 
 </resources>
