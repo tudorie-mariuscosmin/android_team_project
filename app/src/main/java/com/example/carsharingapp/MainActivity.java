@@ -107,8 +107,9 @@ public class MainActivity extends AppCompatActivity {
                         if(user!= null){
                             currentFragment = ProfileFragment.newInstance(user);
                         }
+                        break;
                     case R.id.nav_map:
-                        currentFragment = new MapFragment();
+                            currentFragment = new MapFragment();
                         //Toast.makeText(getApplicationContext(), "profile", Toast.LENGTH_SHORT).show();
                         break;
                         //Toast.makeText(getApplicationContext(), "profile", Toast.LENGTH_SHORT).show();

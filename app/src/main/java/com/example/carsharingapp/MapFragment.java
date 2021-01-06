@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 
 public class MapFragment extends Fragment {
+    private GoogleMap gMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,6 +37,14 @@ public class MapFragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 //When map loaded
+                gMap=googleMap;
+                gMap.getUiSettings().setZoomControlsEnabled(true);
+                LatLng bucharest = new LatLng(44.439663, 26.096306);
+                LatLng brasov = new LatLng(45.657974, 25.601198);
+                gMap.addMarker(new MarkerOptions().position(bucharest).title("Marker in Bucharest"));
+                gMap.moveCamera(CameraUpdateFactory.newLatLng(bucharest));
+                gMap.addMarker(new MarkerOptions().position(brasov).title("Marker in Brasov"));
+                gMap.moveCamera(CameraUpdateFactory.newLatLng(brasov));
                 googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng latLng) {
