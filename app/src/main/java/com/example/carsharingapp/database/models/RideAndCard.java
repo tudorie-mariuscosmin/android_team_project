@@ -15,9 +15,6 @@ public class RideAndCard {
 
     @Override
     public String toString() {
-        return "RideAndCard{" +
-                "ride=" + ride +
-                ", card=" + card +
-                '}';
+        return ride.toString() + " was paid with card:" + card.toString();
     }
 }

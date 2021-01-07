@@ -103,5 +103,9 @@ You warrant and represent that:
     <string name="expected_km">Expected Km</string>
     <string name="nav_map">Map</string>
     <string name="signature">Signature</string>
+    <string name="export_your_data">Export your data</string>
+    <string name="txt">.txt</string>
+    <string name="csv">.csv</string>
+    <string name="pick_desired_export_type">Pick desired export type!</string>
 
 </resources>

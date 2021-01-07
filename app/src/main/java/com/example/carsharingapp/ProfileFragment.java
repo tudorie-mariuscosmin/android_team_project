@@ -1,6 +1,7 @@
 package com.example.carsharingapp;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,14 +13,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.carsharingapp.asyncTask.Callback;
+import com.example.carsharingapp.database.models.RideAndCard;
 import com.example.carsharingapp.database.models.User;
+import com.example.carsharingapp.database.service.RideService;
 import com.example.carsharingapp.database.service.UserService;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -27,6 +33,14 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.Inflater;
 
 public class ProfileFragment extends Fragment {
 
@@ -45,6 +59,9 @@ public class ProfileFragment extends Fragment {
     private Button exportDataBtn;
 
     private UserService userService;
+
+    private  List<RideAndCard> rides;
+    private RideService rideService;
 
     View view;
 
@@ -72,6 +89,7 @@ public class ProfileFragment extends Fragment {
         userService = new UserService(getContext().getApplicationContext());
         initComponents(view);
         setUpViewWithUserData(user);
+        getRides();
         switchEdit.setOnCheckedChangeListener(switchChangeListener());
         deleteAccountBtn.setOnClickListener(v -> {
             new MaterialAlertDialogBuilder(requireContext())
@@ -85,6 +103,28 @@ public class ProfileFragment extends Fragment {
                         deleteAccount();
                     }).show();
 
+        });
+
+        exportDataBtn.setOnClickListener(v -> {
+            View eDialog = inflater.inflate(R.layout.export_dialog, null);
+            new MaterialAlertDialogBuilder(requireContext())
+                    .setView(eDialog)
+                    .setNegativeButton("Cancel", (dialog, which) -> {
+                        dialog.cancel();
+                    })
+                    .setPositiveButton("Export",(dialog, which) -> {
+                        RadioGroup rg = eDialog.findViewById(R.id.rg_export_type);
+                        if(rg.getCheckedRadioButtonId() == R.id.rb_export_txt){
+                            saveToTxtFile(rides);
+                            Snackbar.make(exportDataBtn, "Text export saved on your device", Snackbar.LENGTH_SHORT).show();
+                        }else if(rg.getCheckedRadioButtonId() == R.id.rb_export_csv){
+                            saveToCsvFile(rides);
+                            Snackbar.make(exportDataBtn, "CSV export saved on your device", Snackbar.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(requireContext(), "Please select an option", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .show();
         });
         return view;
     }
@@ -211,5 +251,86 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+    }
+
+
+    private void saveToTxtFile(List<RideAndCard> rides){
+        try {
+            FileOutputStream fileOutputStream = getActivity().openFileOutput("export.txt", Context.MODE_PRIVATE);
+            DataOutputStream outputStream = new DataOutputStream(fileOutputStream);
+            outputStream.write("Your rides: \n".getBytes());
+            for(RideAndCard rideAndCard : rides){
+                outputStream.write((rideAndCard.toString() + "\n").getBytes());
+            }
+
+            outputStream.close();
+            fileOutputStream.close();
+
+
+        }catch (FileNotFoundException ex){
+            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveToCsvFile(List<RideAndCard> rides){
+        try {
+            String csvSeparator = ",";
+            String lineBreak = "\n";
+            FileOutputStream fileOutputStream = getActivity().openFileOutput("export.csv", Context.MODE_PRIVATE);
+            DataOutputStream out = new DataOutputStream(fileOutputStream);
+            out.write("RideNo.".getBytes());
+            out.write(csvSeparator.getBytes());
+            out.write("From date".getBytes());
+            out.write(csvSeparator.getBytes());
+            out.write("Until date".getBytes());
+            out.write(csvSeparator.getBytes());
+            out.write("Car".getBytes());
+            out.write(csvSeparator.getBytes());
+            out.write("Location".getBytes());
+            out.write(csvSeparator.getBytes());
+            out.write("Expected km".getBytes());
+            out.write(csvSeparator.getBytes());
+            out.write("Card".getBytes());
+            out.write(lineBreak.getBytes());
+            for(RideAndCard rideAndCard : rides){
+                out.write(String.valueOf(rideAndCard.ride.getId()).getBytes());
+                out.write(csvSeparator.getBytes());
+                out.write(rideAndCard.ride.getFromDate().getBytes());
+                out.write(csvSeparator.getBytes());
+                out.write(rideAndCard.ride.getUntilDate().getBytes());
+                out.write(csvSeparator.getBytes());
+                out.write(rideAndCard.ride.getCar().getBytes());
+                out.write(csvSeparator.getBytes());
+                out.write(rideAndCard.ride.getCar().getBytes());
+                out.write(csvSeparator.getBytes());
+                out.write(String.valueOf(rideAndCard.ride.getExpectedKm()).getBytes());
+                out.write(csvSeparator.getBytes());
+                out.write(rideAndCard.card.toString().getBytes());
+                out.write(lineBreak.getBytes());
+            }
+
+            out.close();
+            fileOutputStream.close();
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+            Log.d("error csv", e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d("error csv", e.getMessage());
+        }
+    }
+
+
+    private void getRides(){
+        rides = new ArrayList<>();
+        rideService = new RideService(getContext().getApplicationContext());
+        rideService.getRides(result -> {
+            if(result !=null){
+                rides.clear();
+                rides.addAll(result);
+            }
+        });
     }
 }

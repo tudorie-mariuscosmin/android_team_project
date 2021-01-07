@@ -13,7 +13,6 @@ public class HandlerMessage<R> implements Runnable {
 
     @Override
     public void run() {
-        //se trimite rezultatul in activitate/fragment
         mainThreadOperation.runResultOnUiThread(result);
     }
 }

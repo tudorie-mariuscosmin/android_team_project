@@ -114,15 +114,7 @@ public class Ride {
 
     @Override
     public String toString() {
-        return "Ride{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", fromDate='" + fromDate + '\'' +
-                ", untilDate='" + untilDate + '\'' +
-                ", location='" + location + '\'' +
-                ", car='" + car + '\'' +
-                ", creditCardId=" + creditCardId +
-                ", expectedKm=" + expectedKm +
-                '}';
+        return "Ride no." + id+ " : from " + fromDate + " untill " + untilDate
+                + " with car " + car + " picked up in "+ location + " with expected km of " + expectedKm;
     }
 }
