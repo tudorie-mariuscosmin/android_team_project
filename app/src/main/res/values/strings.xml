@@ -102,5 +102,6 @@ You warrant and represent that:
 
     <string name="expected_km">Expected Km</string>
     <string name="nav_map">Map</string>
+    <string name="signature">Signature</string>
 
 </resources>

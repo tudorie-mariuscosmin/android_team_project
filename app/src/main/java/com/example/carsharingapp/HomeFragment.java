@@ -2,6 +2,7 @@ package com.example.carsharingapp;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -54,6 +55,8 @@ public class HomeFragment extends Fragment {
 
     private CreditCardService cardService;
 
+    Button btnSignature;
+
     Spinner spnCarBrand;
     Spinner spnLocation;
     Spinner spnCreditCards;
@@ -92,6 +95,12 @@ public class HomeFragment extends Fragment {
         setSpinners(view);
         setDatePickers(view);
         setSeekBar(view);
+
+        btnSignature = view.findViewById(R.id.btn_signature);
+        btnSignature.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext().getApplicationContext(), SignatureActivity.class);
+            startActivity(intent);
+        });
 
         sharedPreferences = getActivity().getSharedPreferences(LoginActivity.LOGIN_SHARED_PREF, Context.MODE_PRIVATE);
         rideService = new RideService(getContext().getApplicationContext());
