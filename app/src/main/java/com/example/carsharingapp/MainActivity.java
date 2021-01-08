@@ -256,10 +256,6 @@ public class MainActivity extends AppCompatActivity {
 
                     openDefaultFragment(savedInstance);
                 }
-
-
-
-
             }
         };
 
